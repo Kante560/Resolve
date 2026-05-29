@@ -20,7 +20,7 @@ export default function ContractSection() {
 
   const copyAddr = () => {
     navigator.clipboard
-      .writeText("0x — deploy yours first")
+      .writeText("0xC3E79D0C55e58da43f137264FBe812E2f5cc249F")
       .catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -164,7 +164,7 @@ export default function ContractSection() {
                   fontFamily: "monospace",
                 }}
               >
-                Anchor.sol · Base Sepolia
+                Anchor.sol · 0xC3E79D...
               </div>
             </div>
 
