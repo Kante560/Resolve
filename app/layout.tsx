@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
+import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import LenisProvider from "@/components/ui/LenisProvider";
 import GlowCursor from "@/components/ui/GlowCursor";
 import BackgroundScene from "@/components/canvas/BackgroundScene";
+import { Web3Provider } from "@/components/providers/Web3Provider";
+
+import { EventFeed } from "@/components/ui/EventFeed";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -21,13 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bricolage.variable}`}>
-      <body>
-        <LenisProvider>
-          <BackgroundScene />
-          <GlowCursor />
-          {children}
-        </LenisProvider>
+    <html lang="en" className={`${bricolage.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <Web3Provider>
+          <LenisProvider>
+            <BackgroundScene />
+            <GlowCursor />
+            <EventFeed />
+            {children}
+          </LenisProvider>
+        </Web3Provider>
       </body>
     </html>
   );

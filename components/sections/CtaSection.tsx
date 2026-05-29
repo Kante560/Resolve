@@ -4,6 +4,7 @@
 // entrance + button hover effects.
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -122,11 +123,12 @@ export default function CtaSection() {
         <p
           className="cta-sub"
           style={{
-            color: "var(--color-text-secondary)",
-            fontSize: 15,
+            color: "var(--color-text-primary)",
+            fontSize: 18,
             marginBottom: 52,
             lineHeight: 1.75,
-            fontWeight: 300,
+            fontWeight: 400,
+            opacity: 0.9,
           }}
         >
           The contract doesn&apos;t care who you are.
@@ -144,34 +146,38 @@ export default function CtaSection() {
             flexWrap: "wrap",
           }}
         >
-          <motion.button
-            id="cta-launch-app"
-            className="btn-primary"
-            style={{ fontSize: 14, padding: "16px 44px" }}
-            whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(0,82,255,0.5)" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          >
-            Launch App
-          </motion.button>
-          <motion.button
-            id="cta-github"
-            className="btn-outline"
-            style={{ fontSize: 14, padding: "16px 44px" }}
-            whileHover={{ scale: 1.04, borderColor: "rgba(122,136,184,0.6)" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          >
-            View on GitHub →
-          </motion.button>
+          <Link href="/dashboard" passHref legacyBehavior>
+            <motion.button
+              id="cta-launch-app"
+              className="btn-primary"
+              style={{ fontSize: 14, padding: "16px 44px" }}
+              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(0,82,255,0.5)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            >
+              Launch App
+            </motion.button>
+          </Link>
+          <a href="https://github.com/Kante560/Resolve" target="_blank" rel="noopener noreferrer">
+            <motion.button
+              id="cta-github"
+              className="btn-outline"
+              style={{ fontSize: 14, padding: "16px 44px" }}
+              whileHover={{ scale: 1.04, borderColor: "rgba(122,136,184,0.6)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            >
+              View on GitHub →
+            </motion.button>
+          </a>
         </div>
 
         {/* Tagline */}
         <p
           style={{
             marginTop: 48,
-            fontSize: 11,
-            color: "var(--color-text-muted)",
+            fontSize: 13,
+            color: "var(--color-text-secondary)",
             letterSpacing: "0.14em",
           }}
         >

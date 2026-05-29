@@ -1,5 +1,6 @@
 "use client";
 import { useRef } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -165,24 +166,28 @@ export default function HeroSection() {
           className="hero-buttons flex-col-mobile"
           style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
         >
-          <motion.button
-            id="hero-connect-wallet"
-            className="btn-primary"
-            style={{ fontSize: 13 }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-          >
-            Connect Wallet
-          </motion.button>
-          <motion.button
-            id="hero-read-docs"
-            className="btn-outline"
-            style={{ fontSize: 13 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Read the Docs →
-          </motion.button>
+          <Link href="/dashboard" passHref legacyBehavior>
+            <motion.button
+              id="hero-connect-wallet"
+              className="btn-primary"
+              style={{ fontSize: 13 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              Launch App
+            </motion.button>
+          </Link>
+          <Link href="/docs" passHref legacyBehavior>
+            <motion.button
+              id="hero-read-docs"
+              className="btn-outline"
+              style={{ fontSize: 13 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Read the Docs →
+            </motion.button>
+          </Link>
         </div>
       </div>
 

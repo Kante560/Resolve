@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Image from "next/image";
 import TiltedCard from "@/components/ui/TiltedCard";
 import { WHY_ITEMS } from "@/lib/constants";
 
@@ -150,20 +149,20 @@ export default function WhyBaseSection() {
 
               <h3
                 style={{
-                  fontSize: 15,
-                  fontWeight: 700,
+                  fontSize: 18,
+                  fontWeight: 600,
                   color: "var(--color-text-primary)",
-                  marginBottom: 10,
-                  letterSpacing: "0.02em",
+                  marginBottom: 12,
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {item.title}
               </h3>
               <p
                 style={{
-                  fontSize: 13,
+                  fontSize: 15,
                   color: "var(--color-text-secondary)",
-                  lineHeight: 1.75,
+                  lineHeight: 1.65,
                 }}
               >
                 {item.body}

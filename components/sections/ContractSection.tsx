@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Image from "next/image";
 import TiltedCard from "@/components/ui/TiltedCard";
 import { CONTRACT_FUNCTIONS } from "@/lib/constants";
 

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, MotionStyle } from 'framer-motion';
+import React from 'react';
 
 const springValues = {
   damping: 30,
@@ -22,7 +23,22 @@ export default function TiltedCard({
   overlayContent = null,
   displayOverlayContent = false,
   imageStyle = {}
-}: any) {
+}: {
+  imageSrc: string;
+  altText?: string;
+  captionText?: string;
+  containerHeight?: string;
+  containerWidth?: string;
+  imageHeight?: string;
+  imageWidth?: string;
+  scaleOnHover?: number;
+  rotateAmplitude?: number;
+  showMobileWarning?: boolean;
+  showTooltip?: boolean;
+  overlayContent?: React.ReactNode;
+  displayOverlayContent?: boolean;
+  imageStyle?: React.CSSProperties;
+}) {
   const ref = useRef<HTMLElement>(null!);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -74,7 +90,7 @@ export default function TiltedCard({
 
   return (
     <figure
-      ref={ref as any}
+      ref={ref}
       style={{
         position: 'relative',
         display: 'flex',
@@ -162,7 +178,7 @@ export default function TiltedCard({
             y,
             opacity,
             rotate: rotateFigcaption
-          } as any}
+          } as MotionStyle}
         >
           {captionText}
         </motion.figcaption>

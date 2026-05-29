@@ -4,6 +4,7 @@
 // Uses Framer Motion for the slide animation.
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 
@@ -105,15 +106,17 @@ export default function Navbar() {
 
           {/* Right side: CTA & Hamburger */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <motion.button
-              id="nav-launch-app"
-              className="btn-primary hide-on-mobile"
-              style={{ padding: "8px 20px", fontSize: 11 }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Launch App
-            </motion.button>
+            <Link href="/dashboard" passHref legacyBehavior>
+              <motion.button
+                id="nav-launch-app"
+                className="btn-primary hide-on-mobile"
+                style={{ padding: "8px 20px", fontSize: 11 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Launch App
+              </motion.button>
+            </Link>
 
             <button
               className="show-on-mobile"
@@ -196,13 +199,15 @@ export default function Navbar() {
                   </button>
                 ))}
               </div>
-              <motion.button
-                className="btn-primary"
-                style={{ padding: "14px 20px", fontSize: 14, width: "100%" }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Launch App
-              </motion.button>
+              <Link href="/dashboard" passHref legacyBehavior>
+                <motion.button
+                  className="btn-primary"
+                  style={{ padding: "14px 20px", fontSize: 14, width: "100%" }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Launch App
+                </motion.button>
+              </Link>
             </motion.div>
           </>
         )}

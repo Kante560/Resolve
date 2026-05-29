@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { chromium } = require('playwright');
 
 (async () => {
@@ -11,7 +12,7 @@ const { chromium } = require('playwright');
     console.log(`[pageerror] ${err.message}`);
   });
 
-  await page.goto('http://localhost:3001');
+  await page.goto('http://localhost:3002');
   await page.waitForTimeout(3000);
   
   // Set to mobile viewport
@@ -68,6 +69,21 @@ const { chromium } = require('playwright');
   }
   
   await page.screenshot({ path: 'screen12.png' });
+  
+  // Visit Dashboard
+  await page.goto('http://localhost:3002/dashboard', { waitUntil: 'domcontentloaded', timeout: 120000 });
+  await page.waitForTimeout(3000);
+  await page.screenshot({ path: 'screen_dashboard.png' });
+
+  // Visit Client Portal
+  await page.goto('http://localhost:3002/client', { waitUntil: 'domcontentloaded', timeout: 120000 });
+  await page.waitForTimeout(3000);
+  await page.screenshot({ path: 'screen_client.png' });
+
+  // Visit Freelancer Portal
+  await page.goto('http://localhost:3002/freelancer', { waitUntil: 'domcontentloaded', timeout: 120000 });
+  await page.waitForTimeout(3000);
+  await page.screenshot({ path: 'screen_freelancer.png' });
   
   await browser.close();
 })();

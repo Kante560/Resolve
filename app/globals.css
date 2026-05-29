@@ -189,12 +189,19 @@ body {
 .step-card:hover::before { opacity: 1; }
 
 .why-card {
-  padding: 28px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  padding: 32px;
+  border: 1px solid rgba(122, 136, 184, 0.15);
+  background: rgba(8, 15, 30, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
 }
-.why-card:hover { border-color: rgba(0, 82, 255, 0.35); background: rgba(0, 82, 255, 0.04); transform: translateY(-2px); }
+.why-card:hover { 
+  border-color: rgba(0, 82, 255, 0.4); 
+  background: rgba(0, 82, 255, 0.08); 
+  transform: translateY(-4px); 
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
 
 .stat-card {
   text-align: center;

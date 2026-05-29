@@ -2,6 +2,7 @@
 // ─── Footer ─────────────────────────────────────────────────────────────────
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { FOOTER_LINKS } from "@/lib/constants";
 
 export default function Footer() {
@@ -22,37 +23,52 @@ export default function Footer() {
       {/* Brand */}
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <span style={{ fontSize: 18 }}>⚓</span>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", color: "var(--color-text-muted)" }}>
+        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", color: "var(--color-text-primary)" }}>
           ANCHOR
         </span>
         {/* Tagline rendered as a string expression to avoid JSX comment-in-text lint error */}
-        <span style={{ fontSize: 11, color: "var(--color-text-muted)", marginLeft: 8 }}>
+        <span style={{ fontSize: 13, color: "var(--color-text-secondary)", marginLeft: 8 }}>
           {"// Trustless escrow on Base"}
         </span>
       </div>
 
       {/* Links */}
       <div style={{ display: "flex", gap: 28 }}>
-        {FOOTER_LINKS.map((link) => (
-          <motion.span
-            key={link}
+        <Link href="/docs" passHref legacyBehavior>
+          <motion.a
             style={{
-              fontSize: 11,
-              color: "var(--color-text-muted)",
+              fontSize: 13,
+              color: "var(--color-text-secondary)",
+              cursor: "pointer",
+              letterSpacing: "0.08em",
+              display: "block",
+              textDecoration: "none",
+            }}
+            whileHover={{ color: "var(--color-text-primary)", y: -1 }}
+            transition={{ duration: 0.15 }}
+          >
+            Docs
+          </motion.a>
+        </Link>
+        <a href="https://github.com/Kante560/Resolve" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <motion.span
+            style={{
+              fontSize: 13,
+              color: "var(--color-text-secondary)",
               cursor: "pointer",
               letterSpacing: "0.08em",
               display: "block",
             }}
-            whileHover={{ color: "var(--color-text-secondary)", y: -1 }}
+            whileHover={{ color: "var(--color-text-primary)", y: -1 }}
             transition={{ duration: 0.15 }}
           >
-            {link}
+            GitHub
           </motion.span>
-        ))}
+        </a>
       </div>
 
       {/* Year */}
-      <div style={{ fontSize: 11, color: "#1E2840", letterSpacing: "0.08em" }}>
+      <div style={{ fontSize: 12, color: "var(--color-text-secondary)", letterSpacing: "0.08em" }}>
         Built on Base &middot; {new Date().getFullYear()}
       </div>
     </footer>

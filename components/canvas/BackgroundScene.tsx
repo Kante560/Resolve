@@ -102,7 +102,7 @@ function TourRig() {
     mm.add("(min-width: 768px)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: "main",
+          trigger: document.body,
           start: "top top",
           end: "bottom bottom",
           scrub: 1.5,
