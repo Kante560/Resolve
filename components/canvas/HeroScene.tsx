@@ -67,6 +67,8 @@ function AnchorMesh() {
   );
 }
 
+
+
 // ── Camera controller (mouse drift) ──────────────────────────────────────────
 // We access camera via useFrame's `state` parameter (not useThree) so we never
 // hold a direct reference to a hook return value at component scope — this
