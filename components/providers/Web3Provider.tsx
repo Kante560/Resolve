@@ -1,4 +1,9 @@
 "use client";
+// ─── Web3Provider ─────────────────────────────────────────────────────────────
+// Wraps the app with Wagmi + RainbowKit providers.
+// Uses explicit connectorsForWallets from lib/wagmi.ts which prioritises
+// MetaMask and Phantom (with mobile deep links) over generic wallet list.
+// ─────────────────────────────────────────────────────────────────────────────
 
 import React, { ReactNode } from "react";
 import { WagmiProvider } from "wagmi";
@@ -20,6 +25,8 @@ export function Web3Provider({ children }: { children: ReactNode }) {
             fontStack: "system",
             overlayBlur: "small",
           })}
+          // Disable the default chain switching prompt — app only supports Base
+          showRecentTransactions={false}
         >
           {children}
         </RainbowKitProvider>
