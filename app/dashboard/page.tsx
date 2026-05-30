@@ -62,7 +62,7 @@ export default function DashboardPage() {
                   <p style={{ color: "var(--color-text-secondary)", fontSize: 18 }}>Select a portal to continue</p>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+                <div className="portal-grid">
                   {/* Client Portal Link */}
                   <Link href="/client" style={{ textDecoration: "none" }}>
                     <div style={{

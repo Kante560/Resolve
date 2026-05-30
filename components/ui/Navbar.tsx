@@ -12,6 +12,10 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect } from "wagmi";
 import { NAV_LINKS } from "@/lib/constants";
 
+// Create an animated Link wrapper using motion.create() (Framer Motion v12+)
+// to avoid the deprecated legacyBehavior prop while keeping Next.js prefetching.
+const MotionLink = motion.create(Link);
+
 // ── Wallet icon SVGs ──────────────────────────────────────────────────────────
 const MetaMaskIcon = () => (
   <svg width="24" height="24" viewBox="0 0 318.6 318.6" xmlns="http://www.w3.org/2000/svg">
@@ -167,17 +171,17 @@ export default function Navbar() {
 
         {/* Right side: CTA & Hamburger */}
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <Link href="/dashboard" passHref legacyBehavior>
-            <motion.button
-              id="nav-launch-app"
-              className="btn-primary hide-on-mobile"
-              style={{ padding: "8px 20px", fontSize: 11 }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Launch App
-            </motion.button>
-          </Link>
+          {/* Replaced Link + legacyBehavior + motion.button with a single MotionLink for valid HTML and Next.js 13+ standards */}
+          <MotionLink
+            id="nav-launch-app"
+            href="/dashboard"
+            className="btn-primary hide-on-mobile"
+            style={{ padding: "8px 20px", fontSize: 11, textDecoration: "none", display: "inline-block" }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Launch App
+          </MotionLink>
 
           <button
             className="show-on-mobile"
@@ -321,16 +325,16 @@ export default function Navbar() {
                         Disconnect
                       </button>
                     </div>
-                    <Link href="/dashboard" passHref legacyBehavior>
-                      <motion.button
-                        className="btn-primary"
-                        style={{ padding: "14px 20px", fontSize: 14, width: "100%" }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => setIsDrawerOpen(false)}
-                      >
-                        Launch App
-                      </motion.button>
-                    </Link>
+                    {/* Replaced Link + legacyBehavior + motion.button with a single MotionLink for valid HTML and Next.js 13+ standards */}
+                    <MotionLink
+                      href="/dashboard"
+                      className="btn-primary"
+                      style={{ padding: "14px 20px", fontSize: 14, width: "100%", textDecoration: "none", display: "inline-block", textAlign: "center" }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setIsDrawerOpen(false)}
+                    >
+                      Launch App
+                    </MotionLink>
                   </div>
                 ) : isMobileBrowser() ? (
                   // On mobile: show direct deep-link buttons for MetaMask & Phantom
@@ -427,17 +431,15 @@ export default function Navbar() {
                     </button>
                   </div>
                 ) : (
-                  // Desktop fallback inside drawer
-                  <Link href="/dashboard" passHref legacyBehavior>
-                    <motion.button
-                      className="btn-primary"
-                      style={{ padding: "14px 20px", fontSize: 14, width: "100%" }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => setIsDrawerOpen(false)}
-                    >
-                      Launch App
-                    </motion.button>
-                  </Link>
+                  <MotionLink
+                    href="/dashboard"
+                    className="btn-primary"
+                    style={{ padding: "14px 20px", fontSize: 14, width: "100%", textDecoration: "none", display: "inline-block", textAlign: "center" }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    Launch App
+                  </MotionLink>
                 )}
               </div>
             </motion.div>

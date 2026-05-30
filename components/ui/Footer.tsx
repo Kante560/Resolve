@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { FOOTER_LINKS } from "@/lib/constants";
 
+// motion.create(Link) is the modern Framer Motion v12+ API, replacing deprecated motion(Link)
+const MotionLink = motion.create(Link);
+
 export default function Footer() {
   return (
     <footer
@@ -34,22 +37,21 @@ export default function Footer() {
 
       {/* Links */}
       <div style={{ display: "flex", gap: 28 }}>
-        <Link href="/docs" passHref legacyBehavior>
-          <motion.a
-            style={{
-              fontSize: 13,
-              color: "var(--color-text-secondary)",
-              cursor: "pointer",
-              letterSpacing: "0.08em",
-              display: "block",
-              textDecoration: "none",
-            }}
-            whileHover={{ color: "var(--color-text-primary)", y: -1 }}
-            transition={{ duration: 0.15 }}
-          >
-            Docs
-          </motion.a>
-        </Link>
+        <MotionLink
+          href="/docs"
+          style={{
+            fontSize: 13,
+            color: "var(--color-text-secondary)",
+            cursor: "pointer",
+            letterSpacing: "0.08em",
+            display: "block",
+            textDecoration: "none",
+          }}
+          whileHover={{ color: "var(--color-text-primary)", y: -1 }}
+          transition={{ duration: 0.15 }}
+        >
+          Docs
+        </MotionLink>
         <a href="https://github.com/Kante560/Resolve" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
           <motion.span
             style={{

@@ -245,6 +245,92 @@ body {
   display: none !important;
 }
 
+/* ── Portal Grid (Dashboard) ── */
+.portal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+/* ── Client Layout ── */
+
+/* Top-level content area: form sidebar + jobs list */
+.client-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Job card header: title + amount/status badge */
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Long address — truncate so it never overflows */
+.job-freelancer-address {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 24ch; /* safe default on desktop */
+}
+
+/* Action buttons row */
+.job-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.job-actions > button {
+  flex: 1 1 120px; /* allow wrapping at ~120px min */
+}
+
+/* Back link + page header */
+.client-page-header {
+  margin-bottom: 32px;
+}
+.client-page-header h2 {
+  font-size: 28px;
+  font-weight: 600;
+}
+.client-page-header p {
+  color: var(--color-text-secondary);
+}
+
+/* ── Freelancer Job Card ── */
+
+/* Card row: info on the left, ETH amount on the right */
+.freelancer-job-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.freelancer-job-card .fj-left {
+  min-width: 0;
+  flex: 1;
+}
+/* Truncate long client address */
+.freelancer-job-card .fj-client-address {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 24ch;
+  margin-bottom: 12px;
+}
+.freelancer-job-card .fj-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
   .section-padding {
     padding: 80px 24px;
@@ -261,5 +347,48 @@ body {
   .flex-col-mobile {
     flex-direction: column !important;
     align-items: stretch !important;
+  }
+  .portal-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Client layout: stack form above jobs list on mobile */
+  .client-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Show full address on mobile — it has more vertical room to wrap */
+  .job-freelancer-address {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-all;
+    max-width: 100%;
+  }
+
+  /* Stack action buttons vertically on very small screens */
+  .job-actions {
+    flex-direction: column;
+  }
+  .job-actions > button {
+    flex: unset;
+    width: 100%;
+  }
+
+  /* Freelancer card: stack vertically on mobile */
+  .freelancer-job-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .freelancer-job-card .fj-right {
+    text-align: left;
+    width: 100%;
+  }
+  .freelancer-job-card .fj-client-address {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-all;
+    max-width: 100%;
   }
 }

@@ -18,12 +18,22 @@ export default function FreelancerDashboard() {
     <NetworkGuard>
       <div style={{ display: "flex", minHeight: "100vh", background: "#030303", color: "var(--color-text-primary)" }}>
         <main style={{ flex: 1, padding: "32px 24px", maxWidth: 800, margin: "0 auto", width: "100%" }}>
-          <div style={{ marginBottom: 32 }}>
-            <Link href="/dashboard" style={{ color: "var(--color-text-secondary)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
+          <div className="client-page-header">
+            <Link
+              href="/dashboard"
+              style={{
+                color: "var(--color-text-secondary)",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 24,
+              }}
+            >
               <ArrowLeft size={16} /> Back to Hub
             </Link>
-            <h2 style={{ fontSize: 28, fontWeight: 600 }}>Freelancer Portal</h2>
-            <p style={{ color: "var(--color-text-secondary)" }}>View jobs assigned to you and track deadlines.</p>
+            <h2>Freelancer Portal</h2>
+            <p>View jobs assigned to you and track deadlines.</p>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -98,42 +108,61 @@ function FreelancerJobCard({ jobId }: { jobId: number }) {
   const statusColor = statusColors[job.status] || "white";
 
   return (
-    <div style={{
-      background: "rgba(8, 15, 30, 0.4)",
-      border: "1px solid rgba(122, 136, 184, 0.15)",
-      borderRadius: 16,
-      padding: 24,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }}>
-      <div>
-        <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Job #{jobId}</div>
-        <div style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>Client: {job.client}</div>
-        
-        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <div style={{ 
-            fontSize: 11, 
-            fontWeight: 700,
-            color: statusColor, 
-            background: `${statusColor}22`, 
-            padding: "4px 10px", 
-            borderRadius: 6, 
-          }}>
-            {statusName}
-          </div>
+    <div
+      style={{
+        background: "rgba(8, 15, 30, 0.4)",
+        border: "1px solid rgba(122, 136, 184, 0.15)",
+        borderRadius: 16,
+        padding: 24,
+      }}
+    >
+      {/*
+       * freelancer-job-card: row on desktop (info left, ETH right)
+       * → stacks to column on mobile (defined in globals.css)
+       */}
+      <div className="freelancer-job-card">
+        {/* Left: job title, client address, status + countdown */}
+        <div className="fj-left">
+          <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Job #{jobId}</div>
+          <div className="fj-client-address" title={job.client}>Client: {job.client}</div>
 
-          {job.status === 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: timeLeft === "EXPIRED" ? "var(--color-orange)" : "var(--color-text-secondary)" }}>
-              <Clock size={14} /> {timeLeft}
+          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                color: statusColor,
+                background: `${statusColor}22`,
+                padding: "4px 10px",
+                borderRadius: 6,
+              }}
+            >
+              {statusName}
             </div>
-          )}
-        </div>
-      </div>
 
-      <div style={{ textAlign: "right" }}>
-        <div style={{ fontSize: 24, fontWeight: 700, color: "white" }}>{(Number(job.amount) / 1e18).toFixed(4)} ETH</div>
-        <div style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>Total Escrow</div>
+            {job.status === 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                  fontSize: 13,
+                  color: timeLeft === "EXPIRED" ? "var(--color-orange)" : "var(--color-text-secondary)",
+                }}
+              >
+                <Clock size={14} /> {timeLeft}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: ETH amount */}
+        <div className="fj-right">
+          <div style={{ fontSize: 24, fontWeight: 700, color: "white" }}>
+            {(Number(job.amount) / 1e18).toFixed(4)} ETH
+          </div>
+          <div style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>Total Escrow</div>
+        </div>
       </div>
     </div>
   );

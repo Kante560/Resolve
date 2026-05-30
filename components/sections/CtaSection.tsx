@@ -10,6 +10,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
+// motion.create(Link) is the modern Framer Motion v12+ API, replacing deprecated motion(Link)
+const MotionLink = motion.create(Link);
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CtaSection() {
@@ -146,18 +149,17 @@ export default function CtaSection() {
             flexWrap: "wrap",
           }}
         >
-          <Link href="/dashboard" passHref legacyBehavior>
-            <motion.button
-              id="cta-launch-app"
-              className="btn-primary"
-              style={{ fontSize: 14, padding: "16px 44px" }}
-              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(0,82,255,0.5)" }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            >
-              Launch App
-            </motion.button>
-          </Link>
+          <MotionLink
+            id="cta-launch-app"
+            href="/dashboard"
+            className="btn-primary"
+            style={{ fontSize: 14, padding: "16px 44px", textDecoration: "none", display: "inline-block" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(0,82,255,0.5)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            Launch App
+          </MotionLink>
           <a href="https://github.com/Kante560/Resolve" target="_blank" rel="noopener noreferrer">
             <motion.button
               id="cta-github"
