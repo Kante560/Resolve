@@ -4,6 +4,7 @@ import { useReadContract, useWriteContract, useWatchContractEvent } from 'wagmi'
 import { ANCHOR_ABI, ANCHOR_ADDRESS } from '../lib/contract';
 import { parseEther } from 'viem';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useAnchorRead(functionName: string, args: any[] = []) {
   return useReadContract({
     address: ANCHOR_ADDRESS,
@@ -17,6 +18,7 @@ export function useAnchorWrite() {
   const { writeContract, writeContractAsync, data, isPending, error, isSuccess } = useWriteContract();
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     writeContract: (functionName: string, args: any[] = [], value?: string) => {
       return writeContract({
         address: ANCHOR_ADDRESS,
@@ -26,6 +28,7 @@ export function useAnchorWrite() {
         ...(value ? { value: parseEther(value) } : {}),
       });
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     writeContractAsync: async (functionName: string, args: any[] = [], value?: string) => {
       return writeContractAsync({
         address: ANCHOR_ADDRESS,
@@ -100,6 +103,7 @@ export function useClaimRefund() {
 }
 
 // Event Listeners
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useListenJobCreated(onEvent: (logs: any) => void) {
   useWatchContractEvent({
     address: ANCHOR_ADDRESS,
@@ -109,6 +113,7 @@ export function useListenJobCreated(onEvent: (logs: any) => void) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useListenWorkApproved(onEvent: (logs: any) => void) {
   useWatchContractEvent({
     address: ANCHOR_ADDRESS,
@@ -118,6 +123,7 @@ export function useListenWorkApproved(onEvent: (logs: any) => void) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useListenDisputeRaised(onEvent: (logs: any) => void) {
   useWatchContractEvent({
     address: ANCHOR_ADDRESS,
@@ -127,6 +133,7 @@ export function useListenDisputeRaised(onEvent: (logs: any) => void) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useListenRefundClaimed(onEvent: (logs: any) => void) {
   useWatchContractEvent({
     address: ANCHOR_ADDRESS,

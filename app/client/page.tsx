@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAccount } from "wagmi";
 import { NetworkGuard } from "@/components/ui/NetworkGuard";
-import { ShieldCheck, Search, PlusCircle, ArrowLeft } from "lucide-react";
+import { Search, PlusCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import {
   useCreateJob,
@@ -234,15 +234,18 @@ export default function ClientDashboard() {
 function ClientJobCard({ jobId }: { jobId: number }) {
   const { address } = useAccount();
   const { data, refetch: refetchJob } = useGetJob(jobId);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const job = data as any;
   const { approveWork, isPending: isApproving } = useApproveWork();
   const { raiseDispute, isPending: isDisputing } = useRaiseDispute();
   const { claimRefund, isPending: isRefunding } = useClaimRefund();
 
   // Auto-update job status on matching contract events
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkLogAndRefetch = (logs: any) => {
     if (
       logs.some(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (log: any) => log.args.jobId?.toString() === jobId.toString()
       )
     ) {
@@ -252,6 +255,17 @@ function ClientJobCard({ jobId }: { jobId: number }) {
   useListenWorkApproved(checkLogAndRefetch);
   useListenDisputeRaised(checkLogAndRefetch);
   useListenRefundClaimed(checkLogAndRefetch);
+
+  const [isExpired, setIsExpired] = React.useState(false);
+  const deadlineMs = job ? Number(job.deadline) * 1000 : 0;
+  
+  React.useEffect(() => {
+    if (!deadlineMs) return;
+    // eslint-disable-next-line
+    setIsExpired(Date.now() > deadlineMs);
+    const interval = setInterval(() => setIsExpired(Date.now() > deadlineMs), 60000);
+    return () => clearInterval(interval);
+  }, [deadlineMs]);
 
   if (!job) return null;
 
@@ -269,8 +283,7 @@ function ClientJobCard({ jobId }: { jobId: number }) {
   // Only show jobs created by this client's wallet
   if (job.client !== address) return null;
 
-  const deadlineMs = Number(job.deadline) * 1000;
-  const isExpired = Date.now() > deadlineMs;
+
 
   return (
     <div

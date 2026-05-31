@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FOOTER_LINKS } from "@/lib/constants";
+
 
 // motion.create(Link) is the modern Framer Motion v12+ API, replacing deprecated motion(Link)
 const MotionLink = motion.create(Link);

@@ -26,6 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bricolage.variable}`} suppressHydrationWarning>
+      {/*
+       * suppressHydrationWarning on <body> silences attribute mismatches injected
+       * by browser extensions (e.g. Honey/Capital One Shopping adds bis_skin_checked
+       * to every div client-side before React hydrates, causing false positives).
+       * This is safe — it only suppresses one level of attribute diffs, not real errors.
+       */}
       <body suppressHydrationWarning>
         <Web3Provider>
           <LenisProvider>

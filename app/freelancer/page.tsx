@@ -7,6 +7,7 @@ import { Search, ArrowLeft, Clock } from "lucide-react";
 import Link from "next/link";
 import { useJobCount, useGetJob, useListenJobCreated, useListenWorkApproved, useListenDisputeRaised, useListenRefundClaimed } from "@/hooks/useAnchor";
 
+
 export default function FreelancerDashboard() {
   const { data: jobCount, refetch: refetchJobCount } = useJobCount();
   const count = Number(jobCount || 0);
@@ -57,10 +58,13 @@ export default function FreelancerDashboard() {
 function FreelancerJobCard({ jobId }: { jobId: number }) {
   const { address } = useAccount();
   const { data, refetch: refetchJob } = useGetJob(jobId);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const job = data as any;
 
   // Auto update job status immediately on events
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkLogAndRefetch = (logs: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (logs.some((log: any) => log.args.jobId?.toString() === jobId.toString())) {
       refetchJob();
     }

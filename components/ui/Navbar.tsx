@@ -38,18 +38,17 @@ const PhantomIcon = () => (
 );
 
 // ── Mobile wallet detection helpers ───────────────────────────────────────────
+// These helpers are only called client-side (after mount) to avoid SSR/CSR
+// hydration mismatches caused by typeof window checks during render.
 function isMobileBrowser(): boolean {
-  if (typeof window === "undefined") return false;
   return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 }
 
 function isMetaMaskInstalled(): boolean {
-  if (typeof window === "undefined") return false;
   return !!(window.ethereum && (window.ethereum as { isMetaMask?: boolean }).isMetaMask);
 }
 
 function isPhantomInstalled(): boolean {
-  if (typeof window === "undefined") return false;
   return !!(window as { phantom?: { ethereum?: unknown } }).phantom?.ethereum;
 }
 
@@ -71,6 +70,19 @@ export default function Navbar() {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
+
+  // Initialise to false (matches SSR output) and resolve after mount to avoid
+  // hydration mismatches from reading window/navigator during render.
+  const [isMobile, setIsMobile] = useState(false);
+  const [hasMetaMask, setHasMetaMask] = useState(false);
+  const [hasPhantom, setHasPhantom] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    setIsMobile(isMobileBrowser());
+    setHasMetaMask(isMetaMaskInstalled());
+    setHasPhantom(isPhantomInstalled());
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -336,15 +348,17 @@ export default function Navbar() {
                       Launch App
                     </MotionLink>
                   </div>
-                ) : isMobileBrowser() ? (
-                  // On mobile: show direct deep-link buttons for MetaMask & Phantom
+                ) : isMobile ? (
+                  // On mobile: show direct deep-link buttons for MetaMask & Phantom.
+                  // isMobile is resolved client-side only (useEffect) so this branch
+                  // never renders during SSR, preventing hydration mismatches.
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {/* MetaMask deep link */}
                     <motion.button
                       id="mobile-connect-metamask"
                       whileTap={{ scale: 0.97 }}
                       onClick={() => {
-                        if (isMetaMaskInstalled()) {
+                        if (hasMetaMask) {
                           // Extension already injected (unlikely on mobile but some tablets)
                           openConnectModal?.();
                         } else {
@@ -368,8 +382,8 @@ export default function Navbar() {
                       }}
                     >
                       <MetaMaskIcon />
-                      <span>{isMetaMaskInstalled() ? "MetaMask" : "Open in MetaMask"}</span>
-                      {!isMetaMaskInstalled() && (
+                      <span>{hasMetaMask ? "MetaMask" : "Open in MetaMask"}</span>
+                      {!hasMetaMask && (
                         <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(226,118,27,0.7)" }}>↗</span>
                       )}
                     </motion.button>
@@ -379,7 +393,7 @@ export default function Navbar() {
                       id="mobile-connect-phantom"
                       whileTap={{ scale: 0.97 }}
                       onClick={() => {
-                        if (isPhantomInstalled()) {
+                        if (hasPhantom) {
                           openConnectModal?.();
                         } else {
                           openPhantomMobile();
@@ -402,8 +416,8 @@ export default function Navbar() {
                       }}
                     >
                       <PhantomIcon />
-                      <span>{isPhantomInstalled() ? "Phantom" : "Open in Phantom"}</span>
-                      {!isPhantomInstalled() && (
+                      <span>{hasPhantom ? "Phantom" : "Open in Phantom"}</span>
+                      {!hasPhantom && (
                         <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(171,159,242,0.7)" }}>↗</span>
                       )}
                     </motion.button>

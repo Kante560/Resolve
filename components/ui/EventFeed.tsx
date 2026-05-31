@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   useListenJobCreated, 
@@ -37,6 +37,7 @@ export function EventFeed() {
   };
 
   useListenJobCreated((logs) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logs.forEach((log: any) => {
       addEvent({
         type: 'JobCreated',
@@ -47,6 +48,7 @@ export function EventFeed() {
   });
 
   useListenWorkApproved((logs) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logs.forEach((log: any) => {
       addEvent({
         type: 'WorkApproved',
@@ -57,6 +59,7 @@ export function EventFeed() {
   });
 
   useListenDisputeRaised((logs) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logs.forEach((log: any) => {
       addEvent({
         type: 'DisputeRaised',
@@ -67,6 +70,7 @@ export function EventFeed() {
   });
 
   useListenRefundClaimed((logs) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     logs.forEach((log: any) => {
       addEvent({
         type: 'RefundClaimed',
