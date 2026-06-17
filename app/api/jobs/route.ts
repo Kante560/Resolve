@@ -32,7 +32,7 @@ export async function GET() {
       logo: job.company_logo,
       tags: job.tags,
       url: job.url,
-      type: job.location,
+      location: job.location,
       date: job.date
     }));
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Briefcase, AlertCircle, RefreshCw } from "lucide-react";
+import { ArrowLeft, ExternalLink, Briefcase, AlertCircle, RefreshCw, Search, MapPin } from "lucide-react";
 import gsap from "gsap";
 import { NetworkGuard } from "@/components/ui/NetworkGuard";
 
@@ -13,7 +13,7 @@ interface Job {
   logo: string;
   tags: string[];
   url: string;
-  type: string;
+  location: string;
   date: string;
 }
 
@@ -21,7 +21,18 @@ export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
   const listRef = useRef<HTMLDivElement>(null);
+
+  const filteredJobs = React.useMemo(() => {
+    return jobs.filter((job) => {
+      const titleMatch = job.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const companyMatch = job.company.toLowerCase().includes(searchQuery.toLowerCase());
+      const locationMatch = job.location ? job.location.toLowerCase().includes(locationQuery.toLowerCase()) : true;
+      return (titleMatch || companyMatch) && locationMatch;
+    });
+  }, [jobs, searchQuery, locationQuery]);
 
   const fetchJobs = async () => {
     setIsLoading(true);
@@ -47,7 +58,7 @@ export default function JobsPage() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && jobs.length > 0 && listRef.current) {
+    if (!isLoading && filteredJobs.length > 0 && listRef.current) {
       const cards = listRef.current.children;
       gsap.fromTo(
         cards,
@@ -61,7 +72,7 @@ export default function JobsPage() {
         }
       );
     }
-  }, [isLoading, jobs.length]);
+  }, [isLoading, filteredJobs.length, searchQuery, locationQuery]);
 
   return (
     <NetworkGuard>
@@ -101,9 +112,42 @@ export default function JobsPage() {
           <div style={{ padding: "48px 24px", flex: 1, maxWidth: 1000, margin: "0 auto", width: "100%" }}>
             <div style={{ marginBottom: 48 }}>
               <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 12 }}>Web3 Job Board</h1>
-              <p style={{ color: "var(--color-text-secondary)", fontSize: 18, maxWidth: 600 }}>
+              <p style={{ color: "var(--color-text-secondary)", fontSize: 18, maxWidth: 600, marginBottom: 32 }}>
                 Find high-quality Web3 freelance opportunities. Connect, negotiate, and use Anchor for trustless escrow payments.
               </p>
+
+              {/* Search & Filter Bar */}
+              <div style={{
+                display: "flex",
+                gap: 16,
+                background: "rgba(8, 15, 30, 0.4)",
+                border: "1px solid rgba(122, 136, 184, 0.15)",
+                borderRadius: 16,
+                padding: "16px 24px",
+                flexWrap: "wrap",
+                backdropFilter: "blur(12px)"
+              }}>
+                <div style={{ flex: 1, minWidth: 250, display: "flex", alignItems: "center", gap: 12, borderRight: "1px solid rgba(122, 136, 184, 0.15)", paddingRight: 16 }}>
+                  <Search size={20} style={{ color: "var(--color-text-secondary)" }} />
+                  <input 
+                    type="text" 
+                    placeholder="Search by role or company..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ background: "transparent", border: "none", color: "white", width: "100%", fontSize: 16, outline: "none" }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 200, display: "flex", alignItems: "center", gap: 12 }}>
+                  <MapPin size={20} style={{ color: "var(--color-text-secondary)" }} />
+                  <input 
+                    type="text" 
+                    placeholder="Filter by location (e.g., Remote, Worldwide)..." 
+                    value={locationQuery}
+                    onChange={(e) => setLocationQuery(e.target.value)}
+                    style={{ background: "transparent", border: "none", color: "white", width: "100%", fontSize: 16, outline: "none" }}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Error State */}
@@ -136,7 +180,39 @@ export default function JobsPage() {
               </div>
             )}
 
-            {/* Empty State */}
+            {/* Empty Search State */}
+            {!error && !isLoading && jobs.length > 0 && filteredJobs.length === 0 && (
+              <div style={{
+                background: "rgba(8, 15, 30, 0.4)",
+                border: "1px solid rgba(122, 136, 184, 0.15)",
+                borderRadius: 16,
+                padding: "64px 24px",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 16
+              }}>
+                <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(122, 136, 184, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Search size={32} style={{ color: "var(--color-text-secondary)" }} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: 24, fontWeight: 600, color: "white", marginBottom: 8 }}>No matches found</h3>
+                  <p style={{ color: "var(--color-text-secondary)", maxWidth: 450 }}>
+                    We couldn't find any jobs matching your search criteria. Try adjusting your filters.
+                  </p>
+                </div>
+                <button 
+                  onClick={() => { setSearchQuery(""); setLocationQuery(""); }} 
+                  className="btn-outline" 
+                  style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12 }}
+                >
+                  <RefreshCw size={16} /> Clear Filters
+                </button>
+              </div>
+            )}
+
+            {/* Fetch Empty State */}
             {!error && !isLoading && jobs.length === 0 && (
               <div style={{
                 background: "rgba(8, 15, 30, 0.4)",
@@ -193,9 +269,9 @@ export default function JobsPage() {
             )}
 
             {/* Jobs List */}
-            {!isLoading && jobs.length > 0 && (
+            {!isLoading && filteredJobs.length > 0 && (
               <div ref={listRef} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {jobs.map((job) => (
+                {filteredJobs.map((job) => (
                   <a key={job.id} href={job.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
                     <div
                       className="why-card"
@@ -225,7 +301,7 @@ export default function JobsPage() {
                           <ExternalLink size={18} style={{ color: "var(--color-text-secondary)" }} />
                         </div>
                         <p style={{ color: "var(--color-text-secondary)", marginBottom: 12, fontSize: 15 }}>
-                          {job.company} <span style={{ margin: "0 8px", opacity: 0.5 }}>•</span> {job.type || "Remote"}
+                          {job.company} <span style={{ margin: "0 8px", opacity: 0.5 }}>•</span> {job.location || "Remote"}
                         </p>
                         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                           {job.tags?.slice(0, 6).map((tag, i) => (
