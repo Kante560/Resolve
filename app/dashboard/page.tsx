@@ -132,6 +132,41 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </Link>
+
+                  {/* Web3 Jobs Portal Link */}
+                  <Link href="/jobs" style={{ textDecoration: "none" }}>
+                    <div style={{
+                      background: "rgba(8, 15, 30, 0.4)",
+                      border: "1px solid rgba(122, 136, 184, 0.15)",
+                      borderRadius: 16,
+                      padding: 32,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      textAlign: "center",
+                      transition: "all 0.2s",
+                      cursor: "pointer",
+                      height: "100%"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 107, 53, 0.05)";
+                      e.currentTarget.style.transform = "translateY(-4px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(8, 15, 30, 0.4)";
+                      e.currentTarget.style.transform = "translateY(0)";
+                    }}
+                    >
+                      <div style={{ width: 64, height: 64, borderRadius: 16, background: "rgba(255, 107, 53, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-orange)", marginBottom: 24 }}>
+                        <Briefcase size={32} />
+                      </div>
+                      <h3 style={{ fontSize: 24, fontWeight: 600, color: "white", marginBottom: 12 }}>Web3 Job Board</h3>
+                      <p style={{ color: "var(--color-text-secondary)", marginBottom: 24, flex: 1 }}>Discover high-quality Web3 freelance gigs and connect with top clients.</p>
+                      <div style={{ color: "var(--color-orange)", display: "flex", alignItems: "center", gap: 8, fontWeight: 600 }}>
+                        Explore Gigs <ArrowRight size={16} />
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               </div>
             )}
